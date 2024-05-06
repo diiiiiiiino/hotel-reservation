@@ -1,12 +1,12 @@
 package com.dino.hotel.api.hotel.command.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +17,24 @@ public class Hotel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Room> rooms = new ArrayList<>();
+
+    @Embedded
     private Address address;
-    private String location;
+    private String name;
+
+    private Hotel(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public static Hotel of(String name, Address address){
+        return new Hotel(name, address);
+    }
+
+    public void addRoom(Room room){
+        this.rooms.add(room);
+        room.setHotel(this);
+    }
 }
