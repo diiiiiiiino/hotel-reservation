@@ -8,14 +8,6 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 public enum ErrorCode {
-    /**회원 초대코드 만료*/
-    INVITE_CODE_EXPIRED(HttpStatus.BAD_REQUEST, "InviteCodeExpired"),
-
-    /**회원 초대코드 미존재*/
-    INVITE_CODE_NOT_FOUND(HttpStatus.NOT_FOUND, "InviteCodeNotFound"),
-
-    /**세대 미존재*/
-    HOUSEHOLD_NOT_FOUND(HttpStatus.NOT_FOUND, "HouseHoldNotFound"),
 
     /**회원 미존재*/
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MemberNotFound"),
@@ -31,27 +23,6 @@ public enum ErrorCode {
 
     /**유효하지 않은 요청*/
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "InvalidRequest"),
-
-    /**건물 미존재*/
-    BUILDING_NOT_FOUND(HttpStatus.NOT_FOUND, "BuildingNotFound"),
-
-    /**수도요금 중복 생성*/
-    WATER_BILL_DUPLICATE(HttpStatus.CONFLICT, "WaterBillDuplicate"),
-
-    /**수도요금 미존재*/
-    WATER_BILL_NOT_FOUND(HttpStatus.NOT_FOUND, "WaterBillNotFound"),
-
-    /**수도계량 미존재*/
-    WATER_METER_NOT_FOUND(HttpStatus.NOT_FOUND, "WaterMeterNotFound"),
-
-    /**수도계량 데이터가 세대 수 만큼 생성되지 않음*/
-    WATER_METER_NOT_ALL_CREATED(HttpStatus.UNPROCESSABLE_ENTITY, "WaterMeterNotAllCreated"),
-
-    /**수도요금의 정산 준비 상태가 아님*/
-    WATER_BILL_NOT_READY_STATE(HttpStatus.FORBIDDEN, "WaterBillNotReadyState"),
-
-    /**수도요금의 정산 계산중 상태가 아님*/
-    WATER_BILL_NOT_CALCULATE_STATE(HttpStatus.FORBIDDEN, "WaterBillNotCalculateState"),
 
     /**숫자가 음수일때*/
     NEGATIVE_NUMBER(HttpStatus.BAD_REQUEST, "NegativeNumber"),
@@ -74,11 +45,11 @@ public enum ErrorCode {
     /** Server 에러*/
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "ServerError"),
 
-    /** 수도 계량 삭제 불가 상태 */
-    WATER_METER_DELETE_STATE(HttpStatus.FORBIDDEN, "WaterMeterDeleteState"),
-
     /**권한 미존재*/
-    AUTHORITY_NOT_FOUND(HttpStatus.NOT_FOUND, "AuthorityNotFound");
+    AUTHORITY_NOT_FOUND(HttpStatus.NOT_FOUND, "AuthorityNotFound"),
+
+    /**유효하지 않은 기간*/
+    UNAVAILABLE_PERIOD(HttpStatus.BAD_REQUEST, "UnavailablePeriod");
 
     /**HttpStatus*/
     private HttpStatus status;
@@ -89,4 +60,5 @@ public enum ErrorCode {
     ErrorCode(HttpStatus status, String code) {
         this.status = status;
         this.code = code;
-    }}
+    }
+}

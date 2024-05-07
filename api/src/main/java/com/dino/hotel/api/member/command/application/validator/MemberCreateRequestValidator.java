@@ -35,7 +35,6 @@ public class MemberCreateRequestValidator implements RequestValidator<MemberCrea
             String password = request.getPassword();
             String name = request.getName();
             String mobile = request.getMobile();
-            String inviteCode = request.getInviteCode();
 
             if(!StringUtils.hasText(loginId)){
                 errors.add(ValidationError.of("memberLoginId", ValidationCode.NO_TEXT.getValue()));
@@ -67,18 +66,6 @@ public class MemberCreateRequestValidator implements RequestValidator<MemberCrea
                 int length = mobile.length();
                 if(MOBILE.getMin() > length || MOBILE.getMax() < mobile.length())
                     errors.add(ValidationError.of("memberMobile", ValidationCode.LENGTH.getValue()));
-            }
-
-            if(request.getHouseholdId() == null){
-                errors.add(ValidationError.of("memberHouseHoldId", ValidationCode.EMPTY.getValue()));
-            }
-
-            if(!StringUtils.hasText(inviteCode)){
-                errors.add(ValidationError.of("memberInviteCode", ValidationCode.NO_TEXT.getValue()));
-            } else {
-                int length = inviteCode.length();
-                if(MEMBER_INVITE_CODE.getMin() > length || MEMBER_INVITE_CODE.getMax() < length)
-                    errors.add(ValidationError.of("memberInviteCode", ValidationCode.LENGTH.getValue()));
             }
         }
 

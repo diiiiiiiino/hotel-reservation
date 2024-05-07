@@ -5,6 +5,7 @@ import com.dino.hotel.api.common.exception.CustomNullPointerException;
 import com.dino.hotel.api.common.http.response.ErrorCode;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -60,7 +61,9 @@ public class VerifyUtil {
      * @return int
      * @throws CustomIllegalArgumentException 음수일때
      */
-    public static int verifyNegative(int value, String name){
+    public static int verifyNegative(Integer value, String name){
+        verifyNull(value, name);
+
         if(value < 0){
             throw new CustomIllegalArgumentException(name + " no negative", ErrorCode.NEGATIVE_NUMBER, Map.of("name", name));
         }
@@ -75,7 +78,9 @@ public class VerifyUtil {
      * @return long
      * @throws CustomIllegalArgumentException 음수일때
      */
-    public static long verifyNegative(long value, String name){
+    public static long verifyNegative(Long value, String name){
+        verifyNull(value, name);
+
         if(value < 0){
             throw new CustomIllegalArgumentException(name + " no negative", ErrorCode.NEGATIVE_NUMBER, Map.of("name", name));
         }
@@ -108,6 +113,21 @@ public class VerifyUtil {
     public static void verifyCollection(Collection<?> collection, String name){
         if(collection == null || collection.size() == 0){
             throw new CustomIllegalArgumentException(name + " no element", ErrorCode.ILLEGAL_COLLECTION, Map.of("name", name));
+        }
+    }
+
+    /**
+     * 유효한 기간인지 검증
+     * @param start 시작일
+     * @param end 종료일
+     * @throws CustomIllegalArgumentException 컬렉션이 비어있거나 {@code null}일 때
+     */
+    public static void verifyDateBetween(LocalDateTime start, LocalDateTime end){
+        verifyNull(start, "start");
+        verifyNull(end, "end");
+
+        if(start.isAfter(end)){
+            throw new CustomIllegalArgumentException("Unavailable period", ErrorCode.UNAVAILABLE_PERIOD);
         }
     }
 }

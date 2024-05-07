@@ -22,11 +22,9 @@ public class MemberCreateRequest {
     private String password;
     private String name;
     private String mobile;
-    private Long householdId;
-    private String inviteCode;
 
-    public static MemberCreateRequest of(String loginId, String password, String name, String mobile, Long householdId, String inviteCode){
-        return new MemberCreateRequest(loginId, password, name, mobile, householdId, inviteCode);
+    public static MemberCreateRequest of(String loginId, String password, String name, String mobile){
+        return new MemberCreateRequest(loginId, password, name, mobile);
     }
 
     public static Member newMember(MemberCreateRequest request, PasswordEncoder passwordEncoder){

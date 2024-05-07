@@ -1,6 +1,8 @@
 package com.dino.hotel.api.rate.command.domain;
 
+import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +13,16 @@ import java.util.Objects;
 
 @Getter
 @Embeddable
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoomTypeRateId implements Serializable {
     private Long hotelId;
     private LocalDateTime dateTime;
 
     public static RoomTypeRateId of(Long hotelId, LocalDateTime dateTime){
+        VerifyUtil.verifyNegative(hotelId, "hotelId");
+        VerifyUtil.verifyNull(dateTime, "dateTime");
+
         return new RoomTypeRateId(hotelId, dateTime);
     }
 

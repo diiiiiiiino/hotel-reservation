@@ -3,8 +3,8 @@ package com.dino.hotel.api.member.command.application.service;
 import com.dino.hotel.api.common.exception.ValidationError;
 import com.dino.hotel.api.common.exception.ValidationErrorException;
 import com.dino.hotel.api.common.validator.RequestValidator;
-import com.dino.hotel.api.member.command.application.dto.MemberCreateRequest;
-import com.dino.hotel.api.member.command.application.validator.annotation.MemberCreateRequestQualifier;
+import com.dino.hotel.api.member.command.application.dto.AdminCreateRequest;
+import com.dino.hotel.api.member.command.application.validator.annotation.AdminCreateRequestQualifier;
 import com.dino.hotel.api.member.command.domain.Member;
 import com.dino.hotel.api.member.command.domain.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +20,11 @@ import java.util.List;
 public class AdminCreateService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RequestValidator<MemberCreateRequest> requestValidator;
+    private final RequestValidator<AdminCreateRequest> requestValidator;
 
     public AdminCreateService(MemberRepository memberRepository,
                               PasswordEncoder passwordEncoder,
-                              @MemberCreateRequestQualifier RequestValidator<MemberCreateRequest> requestValidator) {
+                              @AdminCreateRequestQualifier RequestValidator<AdminCreateRequest> requestValidator) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.requestValidator = requestValidator;
@@ -55,13 +55,13 @@ public class AdminCreateService {
      * </ul>
      */
     @Transactional
-    public void create(MemberCreateRequest request) {
+    public void create(AdminCreateRequest request) {
         List<ValidationError> errors = requestValidator.validate(request);
         if(!errors.isEmpty()){
             throw new ValidationErrorException("Request has invalid values", errors);
         }
 
-        Member admin = MemberCreateRequest.newAdmin(request, passwordEncoder);
+        Member admin = AdminCreateRequest.newAdmin(request, passwordEncoder);
 
         memberRepository.save(admin);
     }

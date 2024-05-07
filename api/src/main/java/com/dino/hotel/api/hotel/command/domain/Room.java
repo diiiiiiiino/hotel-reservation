@@ -1,14 +1,16 @@
 package com.dino.hotel.api.hotel.command.domain;
 
+import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,20 +19,22 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
 
-    private String roomTypeId;
+    @OneToOne(fetch = FetchType.LAZY)
+    private RoomType roomType;
+
     private Integer floor;
     private Integer number;
     private String name;
     private boolean isAvailable;
 
     private Room(Hotel hotel,
-                 String roomTypeId,
+                 RoomType roomType,
                  Integer floor,
                  Integer number,
                  String name,
                  boolean isAvailable) {
         this.hotel = hotel;
-        this.roomTypeId = roomTypeId;
+        this.roomType = roomType;
         this.floor = floor;
         this.number = number;
         this.name = name;
@@ -38,15 +42,17 @@ public class Room {
     }
 
     public static Room of(Hotel hotel,
-                          String roomTypeId,
+                          RoomType roomType,
                           Integer floor,
                           Integer number,
                           String name,
                           boolean isAvailable){
-        return new Room(hotel, roomTypeId, floor, number, name, isAvailable);
-    }
+        VerifyUtil.verifyNull(hotel, "hotel");
+        VerifyUtil.verifyNull(roomType, "roomType");
+        VerifyUtil.verifyNegative(floor, "floor");
+        VerifyUtil.verifyNegative(number, "number");
+        VerifyUtil.verifyText(name, "name");
 
-    void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+        return new Room(hotel, roomType, floor, number, name, isAvailable);
     }
 }

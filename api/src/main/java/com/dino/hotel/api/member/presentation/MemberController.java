@@ -6,9 +6,6 @@ import com.dino.hotel.api.common.http.response.Response;
 import com.dino.hotel.api.member.command.application.dto.MemberCreateRequest;
 import com.dino.hotel.api.member.command.application.dto.MemberInfoChangeRequest;
 import com.dino.hotel.api.member.command.application.dto.PasswordChangeRequest;
-import com.dino.hotel.api.member.command.application.exception.ExpiredInviteCodeException;
-import com.dino.hotel.api.member.command.application.exception.HouseHoldNotFoundException;
-import com.dino.hotel.api.member.command.application.exception.InviteCodeNotFoundException;
 import com.dino.hotel.api.member.command.application.exception.MemberNotFoundException;
 import com.dino.hotel.api.member.command.application.security.SecurityMember;
 import com.dino.hotel.api.member.command.application.service.MemberCreateService;
@@ -42,16 +39,12 @@ public class MemberController {
      * @param request 멤버 생성 요청
      * @return Response
      * @throws ValidationErrorException 유효하지 않은 값이 있을때
-     * @throws InviteCodeNotFoundException 초대코드가 조회되지 않을 때
-     * @throws ExpiredInviteCodeException 초대코드가 만료됐을 때
-     * @throws HouseHoldNotFoundException 세대가 조회되지 않을 때
      * @throws PasswordOutOfConditionException 비밀번호 정책에 맞지 않을 때
      */
     @Operation(summary = "회원 생성", description = "회원 생성")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상"),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 값이 있을때 / 초대코드 만료 / 비밀번호 정책에 맞지 않을 때"),
-            @ApiResponse(responseCode = "404", description = "초대코드 / 세대 미조회"),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 값이 있을때 / 비밀번호 정책에 맞지 않을 때"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
     @PostMapping
@@ -70,8 +63,7 @@ public class MemberController {
     @Operation(summary = "회원 정보 수정", description = "회원 정보 수정")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상"),
-            @ApiResponse(responseCode = "400", description = "유효하지 않은 값이 있을때 / 초대코드 만료 / 비밀번호 정책에 맞지 않을 때"),
-            @ApiResponse(responseCode = "404", description = "초대코드 / 세대 미조회"),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 값이 있을때 / 비밀번호 정책에 맞지 않을 때"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
     })
     @PatchMapping
@@ -120,7 +112,6 @@ public class MemberController {
      * @param securityMember 인증완료 회원
      * @return Response
      * @throws MemberNotFoundException 회원이 조회되지 않을때
-     * @throws HouseHoldNotFoundException 세대가 조회되지 않을때
      */
     @Operation(summary = "회원 생성", description = "회원 생성")
     @ApiResponses({

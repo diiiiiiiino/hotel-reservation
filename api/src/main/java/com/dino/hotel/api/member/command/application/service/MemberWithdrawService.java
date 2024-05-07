@@ -1,6 +1,5 @@
 package com.dino.hotel.api.member.command.application.service;
 
-import com.dino.hotel.api.member.command.application.exception.HouseHoldNotFoundException;
 import com.dino.hotel.api.member.command.application.exception.MemberNotFoundException;
 import com.dino.hotel.api.member.command.domain.Member;
 import com.dino.hotel.api.member.command.domain.enumeration.MemberState;
@@ -22,7 +21,6 @@ public class MemberWithdrawService {
      * 회원 탈퇴
      * @param member 회원
      * @throws MemberNotFoundException 회원 미조회
-     * @throws HouseHoldNotFoundException 세대 미조회
      */
     @Transactional
     public void withDraw(Member member) {
