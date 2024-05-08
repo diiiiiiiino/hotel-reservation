@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -54,5 +56,18 @@ public class Room {
         VerifyUtil.verifyText(name, "name");
 
         return new Room(hotel, roomType, floor, number, name, isAvailable);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return isAvailable == room.isAvailable && Objects.equals(id, room.id) && Objects.equals(floor, room.floor) && Objects.equals(number, room.number) && Objects.equals(name, room.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, floor, number, name, isAvailable);
     }
 }

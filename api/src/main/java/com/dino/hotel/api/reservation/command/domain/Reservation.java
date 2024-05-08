@@ -1,6 +1,7 @@
 package com.dino.hotel.api.reservation.command.domain;
 
 import com.dino.hotel.api.hotel.command.domain.Hotel;
+import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.member.command.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.dino.hotel.api.util.VerifyUtil.*;
+import static com.dino.hotel.api.util.VerifyUtil.verifyDateBetween;
+import static com.dino.hotel.api.util.VerifyUtil.verifyNull;
 
 @Getter
 @Entity
@@ -27,7 +29,9 @@ public class Reservation {
     @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    private String roomTypeId;
+    @OneToOne(fetch = FetchType.LAZY)
+    private RoomType roomType;
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -36,13 +40,13 @@ public class Reservation {
 
     private Reservation(Hotel hotel,
                        Member member,
-                       String roomTypeId,
+                       RoomType roomType,
                        LocalDateTime startDate,
                        LocalDateTime endDate,
                        ReservationStatus status) {
         this.hotel = hotel;
         this.member = member;
-        this.roomTypeId = roomTypeId;
+        this.roomType = roomType;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
@@ -50,16 +54,16 @@ public class Reservation {
 
     public static Reservation of(Hotel hotel,
                                  Member member,
-                                 String roomTypeId,
+                                 RoomType roomType,
                                  LocalDateTime startDate,
                                  LocalDateTime endDate,
                                  ReservationStatus status){
         verifyNull(hotel, "hotel");
         verifyNull(member, "member");
-        verifyText(roomTypeId, "roomTypeId");
+        verifyNull(roomType, "roomType");
         verifyDateBetween(startDate, endDate);
         verifyNull(status, "status");
 
-        return new Reservation(hotel, member, roomTypeId, startDate, endDate, status);
+        return new Reservation(hotel, member, roomType, startDate, endDate, status);
     }
 }
