@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
-
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,13 +41,5 @@ public class RoomTypeRate extends BaseEntity implements Persistable<RoomTypeRate
     @Override
     public RoomTypeRateId getId() {
         return id;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public Integer getRate() {
-        return rate;
     }
 }
