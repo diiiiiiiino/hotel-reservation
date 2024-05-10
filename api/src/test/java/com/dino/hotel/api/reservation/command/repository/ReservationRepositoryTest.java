@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class ReservationRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
@@ -53,6 +55,10 @@ public class ReservationRepositoryTest extends BaseRepositoryTest {
 
         reservationRepository.save(reservation);
 
-        flushAndClear();
+        clear();
+
+        reservation = reservationRepository.findById(reservation.getId()).get();
+
+        assertThat(reservation).isNotNull();
     }
 }

@@ -34,7 +34,7 @@ public class RoomTypeRateRepositoryTest extends BaseRepositoryTest {
         RoomTypeRate roomTypeRate = RoomTypeRate.of(roomTypeRateId, hotel, 100);
         roomTypeRateRepository.save(roomTypeRate);
 
-        flushAndClear();
+        clear();
 
         roomTypeRate = roomTypeRateRepository.findById(roomTypeRateId).get();
 

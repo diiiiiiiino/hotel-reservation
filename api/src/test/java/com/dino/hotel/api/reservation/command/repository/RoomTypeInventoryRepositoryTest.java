@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class RoomTypeInventoryRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
@@ -36,12 +38,16 @@ public class RoomTypeInventoryRepositoryTest extends BaseRepositoryTest {
         RoomType roomType = RoomTypeBuilder.builder().build();
         roomTypeRepository.save(roomType);
 
-        RoomTypeInventoryId roomTypeInventoryId = RoomTypeInventoryId.of(hotel.getId(), roomType.getId(), LocalDateTime.now());
+        RoomTypeInventoryId roomTypeInventoryId = RoomTypeInventoryId.of(hotel.getId(), roomType.getId(), LocalDateTime.of(2024, 05, 11, 10, 0, 0));
 
         RoomTypeInventory roomTypeInventory = RoomTypeInventory.of(roomTypeInventoryId, hotel, 100, 80);
 
         roomTypeInventoryRepository.save(roomTypeInventory);
 
         flushAndClear();
+
+        roomTypeInventory = roomTypeInventoryRepository.findById(roomTypeInventoryId).get();
+
+        assertThat(roomTypeInventory).isNotNull();
     }
 }
