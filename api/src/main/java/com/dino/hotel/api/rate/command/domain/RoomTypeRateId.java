@@ -1,6 +1,7 @@
 package com.dino.hotel.api.rate.command.domain;
 
 import com.dino.hotel.api.util.VerifyUtil;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

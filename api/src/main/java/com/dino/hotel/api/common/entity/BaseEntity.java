@@ -16,11 +16,11 @@ public abstract class BaseEntity {
      * 생성일시
      */
     @CreationTimestamp
-    private LocalDateTime createTime;
+    protected LocalDateTime createTime;
 
     /**
      * 수정일시
      */
     @UpdateTimestamp
-    private LocalDateTime updateTime;
+    protected LocalDateTime updateTime;
 }

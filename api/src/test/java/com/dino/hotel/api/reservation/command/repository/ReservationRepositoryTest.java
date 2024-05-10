@@ -44,7 +44,6 @@ public class ReservationRepositoryTest extends BaseRepositoryTest {
         hotelRepository.save(hotel);
         roomTypeRepository.save(roomType);
 
-
         Reservation reservation = Reservation.of(hotel,
                 member,
                 roomType,

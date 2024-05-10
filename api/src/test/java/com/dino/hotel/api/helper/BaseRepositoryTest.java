@@ -16,4 +16,8 @@ public abstract class BaseRepositoryTest {
         entityManager.flush();
         entityManager.clear();
     }
+
+    protected void clear(){
+        entityManager.clear();
+    }
 }
