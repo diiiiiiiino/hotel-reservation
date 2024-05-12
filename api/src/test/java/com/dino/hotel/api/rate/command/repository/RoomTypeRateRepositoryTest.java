@@ -30,12 +30,11 @@ public class RoomTypeRateRepositoryTest extends BaseRepositoryTest {
         hotelRepository.save(hotel);
 
         RoomTypeRateId roomTypeRateId = RoomTypeRateId.of(hotel.getId(), LocalDateTime.of(2024, 05, 10, 10, 0, 0));
-
         RoomTypeRate roomTypeRate = RoomTypeRate.of(roomTypeRateId, hotel, 100);
+
         roomTypeRateRepository.save(roomTypeRate);
 
-        clear();
-
+        flushAndClear();
         roomTypeRate = roomTypeRateRepository.findById(roomTypeRateId).get();
 
         assertThat(roomTypeRate).isNotNull();

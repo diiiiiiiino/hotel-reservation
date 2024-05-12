@@ -31,11 +31,23 @@ public class Hotel {
         this.address = address;
     }
 
+    private Hotel(Long id, String name, Address address) {
+        this(name, address);
+        this.id = id;
+    }
+
     public static Hotel of(String name, Address address){
         VerifyUtil.verifyText(name, "hotelName");
         VerifyUtil.verifyNull(address, "hotelAddress");
 
         return new Hotel(name, address);
+    }
+
+    public static Hotel of(Long id, String name, Address address){
+        VerifyUtil.verifyText(name, "hotelName");
+        VerifyUtil.verifyNull(address, "hotelAddress");
+
+        return new Hotel(id, name, address);
     }
 
     public void addRoom(Room room){
