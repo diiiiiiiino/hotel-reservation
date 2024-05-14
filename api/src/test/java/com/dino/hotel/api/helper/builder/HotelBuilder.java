@@ -3,6 +3,7 @@ package com.dino.hotel.api.helper.builder;
 import com.dino.hotel.api.hotel.command.domain.Address;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.Room;
+import com.dino.hotel.api.hotel.command.domain.RoomType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class HotelBuilder {
     private Long id;
     private String name = "5성호텔";
     private Address address = AddressBuilder.builder().build();
-    private List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
+    private List<Function<Hotel, Room>> functions = List.of(hotel -> Room.of(hotel, RoomType.of(1L), 1, 1, "101", true));
 
     public static HotelBuilder builder(){
         return new HotelBuilder();

@@ -20,7 +20,7 @@ public class HotelCreateService {
         VerifyUtil.verifyNull(hotelDto, "hotelDto");
 
         Hotel hotel = hotelDtoToHotelMapper.apply(hotelDto);
-        hotelRepository.save(hotel);
+        hotel = hotelRepository.save(hotel);
 
         return hotel.getId();
     }

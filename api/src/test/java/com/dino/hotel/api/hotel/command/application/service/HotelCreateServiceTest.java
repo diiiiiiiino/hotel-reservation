@@ -46,7 +46,7 @@ public class HotelCreateServiceTest {
     }
 
     @Test
-    @DisplayName("Hotel만 생성")
+    @DisplayName("Hotel 생성")
     void whenCreateHotelThenSuccess() {
         Address address = AddressBuilder.builder().build();
         String name = "5성호텔";
