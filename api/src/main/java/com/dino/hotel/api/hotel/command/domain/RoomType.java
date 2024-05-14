@@ -21,6 +21,10 @@ public class RoomType {
     private String name;
     private String description;
 
+    private RoomType(Long id){
+        this.id = id;
+    }
+
     private RoomType(String name, String description) {
         this.name = name;
         this.description = description;
@@ -31,5 +35,11 @@ public class RoomType {
         VerifyUtil.verifyText(description, "description");
 
         return new RoomType(name, description);
+    }
+
+    public static RoomType of(Long id){
+        VerifyUtil.verifyNegative(id, "id");
+
+        return new RoomType(id);
     }
 }

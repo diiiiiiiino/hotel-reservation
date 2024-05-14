@@ -3,6 +3,7 @@ package com.dino.hotel.api.hotel.command.domain;
 import com.dino.hotel.api.common.exception.CustomIllegalArgumentException;
 import com.dino.hotel.api.common.exception.CustomNullPointerException;
 import com.dino.hotel.api.helper.builder.AddressBuilder;
+import com.dino.hotel.api.helper.builder.RoomBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,6 +11,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,23 +24,38 @@ public class HotelTest {
     @DisplayName("호텔 생성 시 호텔명 누락")
     public void whenHotelCreateThenNameIsNull(String name){
         Address address = AddressBuilder.builder().build();
+        List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
 
-        assertThatThrownBy(() -> Hotel.of(name, address))
+        assertThatThrownBy(() -> Hotel.of(name, address, functions))
                 .isInstanceOf(CustomIllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("호텔 생성 시 주소 누락")
     public void whenHotelCreateThenAddressIsNull(){
-        assertThatThrownBy(() -> Hotel.of("5성호텔", null))
+        List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
+
+        assertThatThrownBy(() -> Hotel.of("5성호텔", null, functions))
                 .isInstanceOf(CustomNullPointerException.class);
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("호텔 생성 시 Rooms 누락")
+    public void caseRoomsIsEmptyWhenHotelCreateThenNameThenException(List<Function<Hotel, Room>> functions){
+        Address address = AddressBuilder.builder().build();
+
+        assertThatThrownBy(() -> Hotel.of("5성호텔", address, functions))
+                .isInstanceOf(CustomIllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("Null인 Room이 추가 될 때")
     void whenAddRoomThenNull() {
         Address address = AddressBuilder.builder().build();
-        Hotel hotel = Hotel.of("5성호텔", address);
+        List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
+
+        Hotel hotel = Hotel.of("5성호텔", address, functions);
 
         assertThatThrownBy(() -> hotel.addRoom(null))
                 .isInstanceOf(CustomNullPointerException.class);
@@ -47,7 +65,9 @@ public class HotelTest {
     @DisplayName("Null인 Room을 삭제 하려고 할때")
     void whenDeleteRoomThenNull() {
         Address address = AddressBuilder.builder().build();
-        Hotel hotel = Hotel.of("5성호텔", address);
+        List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
+
+        Hotel hotel = Hotel.of("5성호텔", address, functions);
 
         assertThatThrownBy(() -> hotel.removeRoom(null))
                 .isInstanceOf(CustomNullPointerException.class);

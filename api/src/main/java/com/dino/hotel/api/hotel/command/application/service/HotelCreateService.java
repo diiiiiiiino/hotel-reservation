@@ -1,6 +1,7 @@
 package com.dino.hotel.api.hotel.command.application.service;
 
 import com.dino.hotel.api.hotel.command.application.dto.HotelDto;
+import com.dino.hotel.api.hotel.command.application.mapper.HotelDtoToHotelMapper;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
 import com.dino.hotel.api.util.VerifyUtil;
@@ -12,17 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class HotelCreateService {
     private final HotelRepository hotelRepository;
+    private final HotelDtoToHotelMapper hotelDtoToHotelMapper;
 
     @Transactional
     public Long create(HotelDto hotelDto) {
         VerifyUtil.verifyNull(hotelDto, "hotelDto");
 
-        Hotel hotel = hotelRepository.save(getOf(hotelDto));
+        Hotel hotel = hotelDtoToHotelMapper.apply(hotelDto);
+        hotelRepository.save(hotel);
 
         return hotel.getId();
-    }
-
-    private Hotel getOf(HotelDto hotelDto) {
-        return Hotel.of(hotelDto.getName(), hotelDto.getAddress());
     }
 }

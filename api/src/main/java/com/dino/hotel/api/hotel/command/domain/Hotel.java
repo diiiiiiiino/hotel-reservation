@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Entity
 @Getter
@@ -26,28 +27,31 @@ public class Hotel {
     private Address address;
     private String name;
 
-    private Hotel(String name, Address address) {
+    private Hotel(String name, Address address, List<Function<Hotel, Room>> functions) {
         this.name = name;
         this.address = address;
+        setRooms(functions);
     }
 
-    private Hotel(Long id, String name, Address address) {
-        this(name, address);
+    private Hotel(Long id, String name, Address address, List<Function<Hotel, Room>> functions) {
+        this(name, address, functions);
         this.id = id;
     }
 
-    public static Hotel of(String name, Address address){
+    public static Hotel of(String name, Address address, List<Function<Hotel, Room>> functions){
         VerifyUtil.verifyText(name, "hotelName");
         VerifyUtil.verifyNull(address, "hotelAddress");
+        VerifyUtil.verifyCollection(functions, "hotelFunctions");
 
-        return new Hotel(name, address);
+        return new Hotel(name, address, functions);
     }
 
-    public static Hotel of(Long id, String name, Address address){
+    public static Hotel of(Long id, String name, Address address, List<Function<Hotel, Room>> functions){
         VerifyUtil.verifyText(name, "hotelName");
         VerifyUtil.verifyNull(address, "hotelAddress");
+        VerifyUtil.verifyCollection(functions, "hotelFunctions");
 
-        return new Hotel(id, name, address);
+        return new Hotel(id, name, address, functions);
     }
 
     public void addRoom(Room room){
@@ -58,5 +62,16 @@ public class Hotel {
     public void removeRoom(Room room){
         VerifyUtil.verifyNull(room, "hotelRoom");
         this.rooms.remove(room);
+    }
+
+    private void setRooms(List<Function<Hotel, Room>> functions){
+        VerifyUtil.verifyCollection(functions, "hotelFunctions");
+
+        List<Room> rooms = new ArrayList<>();
+        for(Function<Hotel, Room> function : functions){
+            rooms.add(function.apply(this));
+        }
+
+        this.rooms = rooms;
     }
 }

@@ -2,8 +2,10 @@ package com.dino.hotel.api.rate.command;
 
 import com.dino.hotel.api.common.exception.CustomIllegalArgumentException;
 import com.dino.hotel.api.common.exception.CustomNullPointerException;
+import com.dino.hotel.api.helper.builder.RoomBuilder;
 import com.dino.hotel.api.hotel.command.domain.Address;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
+import com.dino.hotel.api.hotel.command.domain.Room;
 import com.dino.hotel.api.rate.command.domain.RoomTypeRate;
 import com.dino.hotel.api.rate.command.domain.RoomTypeRateId;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +14,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,7 +48,8 @@ public class RoomTypeRateTest {
 
     static Stream<Arguments> whenCreateRoomTypeRateThenExceptionSource(){
         RoomTypeRateId id = RoomTypeRateId.of(1L, LocalDateTime.now());
-        Hotel hotel = Hotel.of("5성호텔", Address.of("서울시", "동대문구", "123456"));
+        List<Function<Hotel, Room>> functions = List.of(hotel -> RoomBuilder.builder().hotel(hotel).build());
+        Hotel hotel = Hotel.of("5성호텔", Address.of("서울시", "동대문구", "123456"), functions);
 
         return Stream.of(
                 Arguments.of(null, hotel, 1, CustomNullPointerException.class),
