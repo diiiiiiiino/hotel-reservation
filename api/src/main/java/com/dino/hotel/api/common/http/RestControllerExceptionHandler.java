@@ -9,6 +9,7 @@ import com.dino.hotel.api.common.http.response.ErrorResponse;
 import com.dino.hotel.api.common.http.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -86,5 +87,16 @@ public class RestControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(builder.build());
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<?> totalHandle(MethodArgumentNotValidException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message(exception.getMessage())
+                .errorCode(ErrorCode.INVALID_REQUEST.getCode())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.INVALID_REQUEST.getStatus())
+                .body(response);
     }
 }

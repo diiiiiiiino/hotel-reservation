@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -51,7 +52,8 @@ public abstract class BaseControllerTest {
 
     protected ResultActions mvcPerform(MockHttpServletRequestBuilder builder, Object object) throws Exception {
         if(object != null){
-            builder.content(writeValueAsString(object));
+            builder.content(writeValueAsString(object))
+                    .with(SecurityMockMvcRequestPostProcessors.csrf());
         }
 
         return mockMvc.perform(builder
