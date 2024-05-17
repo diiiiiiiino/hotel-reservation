@@ -74,4 +74,12 @@ public class Hotel {
 
         this.rooms = rooms;
     }
+
+    public void update(Address address, String name) {
+        VerifyUtil.verifyNull(address, "address");
+        VerifyUtil.verifyText(name, "name");
+
+        this.address = address;
+        this.name = name;
+    }
 }

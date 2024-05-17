@@ -12,6 +12,9 @@ public enum ErrorCode {
     /**회원 미존재*/
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MemberNotFound"),
 
+    /**호텔 미존재*/
+    HOTEL_NOT_FOUND(HttpStatus.NOT_FOUND, "HotelNotFound"),
+
     /**비밀번호 틀림*/
     PASSWORD_NOT_MATCHED(HttpStatus.BAD_REQUEST, "PasswordNotMatched"),
 

@@ -52,9 +52,10 @@ public abstract class BaseControllerTest {
 
     protected ResultActions mvcPerform(MockHttpServletRequestBuilder builder, Object object) throws Exception {
         if(object != null){
-            builder.content(writeValueAsString(object))
-                    .with(SecurityMockMvcRequestPostProcessors.csrf());
+            builder.content(writeValueAsString(object));
         }
+
+        builder.with(SecurityMockMvcRequestPostProcessors.csrf());
 
         return mockMvc.perform(builder
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
