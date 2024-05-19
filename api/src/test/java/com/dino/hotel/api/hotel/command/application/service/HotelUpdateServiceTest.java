@@ -6,8 +6,10 @@ import com.dino.hotel.api.helper.builder.HotelBuilder;
 import com.dino.hotel.api.hotel.command.application.dto.HotelUpdateDto;
 import com.dino.hotel.api.hotel.command.domain.Address;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
+import com.dino.hotel.api.hotel.command.domain.exception.HotelNotFoundException;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +25,8 @@ public class HotelUpdateServiceTest {
     private HotelUpdateService hotelUpdateService;
     private HotelRepository hotelRepository;
 
-    public HotelUpdateServiceTest() {
+    @BeforeEach
+    void setUp(){
         this.hotelRepository = mock(HotelRepository.class);
         this.hotelUpdateService = new HotelUpdateService(hotelRepository);
     }
@@ -35,17 +38,17 @@ public class HotelUpdateServiceTest {
         Address address = Address.of("경기도", "광주시", "333333");
         String name = "4성급호텔";
 
-        HotelUpdateDto hotelUpdateDto = HotelUpdateDto.of(id, address, name);
+        HotelUpdateDto hotelUpdateDto = HotelUpdateDto.of(address, name);
 
         when(hotelRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(hotelUpdateDto, NotFoundException.class);
+        assertThatThrownBy(id, hotelUpdateDto, HotelNotFoundException.class);
     }
 
     @Test
     @DisplayName("수정할 Hotel의 정보가 null인 경우")
     void whenHotelUpdateThenIllegalArgumentExceptionCauseDtoIsNull() {
-        assertThatThrownBy(null, CustomNullPointerException.class);
+        assertThatThrownBy(1L, null, CustomNullPointerException.class);
     }
 
     @Test
@@ -55,13 +58,13 @@ public class HotelUpdateServiceTest {
         Address address = Address.of("경기도", "광주시", "333333");
         String name = "4성급호텔";
 
-        HotelUpdateDto hotelUpdateDto = HotelUpdateDto.of(id, address, name);
+        HotelUpdateDto hotelUpdateDto = HotelUpdateDto.of(address, name);
 
         Hotel hotel = HotelBuilder.builder().build();
 
         when(hotelRepository.findById(anyLong())).thenReturn(Optional.of(hotel));
 
-        hotelUpdateService.update(hotelUpdateDto);
+        hotelUpdateService.update(id, hotelUpdateDto);
 
         Address address2 = hotel.getAddress();
         assertThat(hotel.getName()).isEqualTo("4성급호텔");
@@ -70,8 +73,8 @@ public class HotelUpdateServiceTest {
         assertThat(address2.getZipNo()).isEqualTo("333333");
     }
 
-    private void assertThatThrownBy(HotelUpdateDto hotelUpdateDto, Class<? extends Exception> exceptionClass){
-        Assertions.assertThatThrownBy(() -> hotelUpdateService.update(hotelUpdateDto))
+    private void assertThatThrownBy(Long id, HotelUpdateDto hotelUpdateDto, Class<? extends Exception> exceptionClass){
+        Assertions.assertThatThrownBy(() -> hotelUpdateService.update(id, hotelUpdateDto))
                 .isInstanceOf(exceptionClass);
     }
 }

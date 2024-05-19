@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestHotelUpdateDto {
-    private Long id;
     private Address address;
     private String name;
 
-    public static TestHotelUpdateDto of(Long id, Address address, String name){
-        return new TestHotelUpdateDto(id, address, name);
+    public static TestHotelUpdateDto of(Address address, String name){
+        return new TestHotelUpdateDto(address, name);
     }
 }
