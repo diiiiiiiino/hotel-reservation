@@ -35,10 +35,7 @@ public class RoomTypeInventoryRepositoryTest extends BaseRepositoryTest {
         Hotel hotel = HotelBuilder.builder().build();
         hotelRepository.save(hotel);
 
-        RoomType roomType = RoomTypeBuilder.builder().build();
-        roomTypeRepository.save(roomType);
-
-        RoomTypeInventoryId roomTypeInventoryId = RoomTypeInventoryId.of(hotel.getId(), roomType.getId(), LocalDateTime.of(2024, 05, 11, 10, 0, 0));
+        RoomTypeInventoryId roomTypeInventoryId = RoomTypeInventoryId.of(hotel.getId(), 1L, LocalDateTime.of(2024, 05, 11, 10, 0, 0));
 
         RoomTypeInventory roomTypeInventory = RoomTypeInventory.of(roomTypeInventoryId, hotel, 100, 80);
 

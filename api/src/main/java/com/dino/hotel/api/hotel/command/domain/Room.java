@@ -21,7 +21,7 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RoomType roomType;
 
     private Integer floor;

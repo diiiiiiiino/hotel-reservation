@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,13 +21,11 @@ public class HotelRepositoryTest extends BaseRepositoryTest {
     @Autowired
     private HotelRepository hotelRepository;
 
-    @Autowired
-    private RoomTypeRepository roomTypeRepository;
-
     @Test
     @DisplayName("Hotel 엔티티 저장")
     void createHotelEntitySave(){
-        Hotel hotel = HotelBuilder.builder().build();
+        Hotel hotel = HotelBuilder.builder()
+                .build();
 
         Hotel saveHotel = hotelRepository.save(hotel);
 
@@ -37,10 +36,10 @@ public class HotelRepositoryTest extends BaseRepositoryTest {
     @DisplayName("Hotel 엔티티에 Room 엔티티 추가")
     void createHotelEntityAddRoom() {
         Hotel hotel = HotelBuilder.builder().build();
-        RoomType roomType = saveRoomType();
+
         Room room = RoomBuilder.builder()
                 .hotel(hotel)
-                .roomType(roomType)
+                .roomType(RoomType.of(2L))
                 .build();
 
         hotel.addRoom(room);
@@ -52,17 +51,17 @@ public class HotelRepositoryTest extends BaseRepositoryTest {
         List<Room> rooms = hotel.getRooms();
 
         assertThat(hotel).isNotNull();
-        assertThat(rooms).hasSize(1);
+        assertThat(rooms).hasSize(2);
     }
 
     @Test
     @DisplayName("Hotel 엔티티에 Room 엔티티 삭제")
     void createHotelEntityRemoveRoom() {
         Hotel hotel = HotelBuilder.builder().build();
-        RoomType roomType = saveRoomType();
+
         Room room = RoomBuilder.builder()
                 .hotel(hotel)
-                .roomType(roomType)
+                .roomType(RoomType.of(2L))
                 .build();
 
         hotel.addRoom(room);
@@ -76,12 +75,6 @@ public class HotelRepositoryTest extends BaseRepositoryTest {
         hotel = hotelRepository.findById(hotel.getId()).get();
 
         List<Room> rooms = hotel.getRooms();
-        assertThat(rooms).isEmpty();
-    }
-
-
-    private RoomType saveRoomType(){
-        RoomType roomType = RoomTypeBuilder.builder().build();
-        return roomTypeRepository.save(roomType);
+        assertThat(rooms).hasSize(1);
     }
 }

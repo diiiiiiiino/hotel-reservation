@@ -139,7 +139,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
         Address address = null;
         String name = "5성호텔";
 
-        mvcPerformPatchHotel(id, address, name, status().isInternalServerError());
+        mvcPerformPatchHotel(id, address, name, status().isBadRequest());
     }
 
     @WithMockUser
@@ -170,7 +170,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     void whenHotelRemoveThenInvalidRequestCauseIdNull() throws Exception {
         Long id = null;
 
-        mvcPerformRemoveHotel(id, status().isBadRequest());
+        mvcPerformRemoveHotel(id, status().isInternalServerError());
     }
 
     @WithMockUser

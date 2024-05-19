@@ -6,3 +6,7 @@ insert into member (login_id, password, name, mobile, state) values ('admin', '$
 
 insert into member_authority(member_id, authority_id) values (1, 2);
 insert into member_authority(member_id, authority_id) values (2, 1);
+
+insert into room_type (name, description) values ('싱글트윈', '시티뷰');
+insert into room_type (name, description) values ('싱글트윈', '오션뷰');
+insert into room_type (name, description) values ('싱글트윈', '노뷰');

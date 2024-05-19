@@ -40,15 +40,12 @@ public class ReservationRepositoryTest extends BaseRepositoryTest {
     void createReservation() {
         Member member = MemberCreateHelperBuilder.builder().build();
         Hotel hotel = HotelBuilder.builder().build();
-        RoomType roomType = RoomTypeBuilder.builder().build();
-
         memberRepository.save(member);
         hotelRepository.save(hotel);
-        roomTypeRepository.save(roomType);
 
         Reservation reservation = Reservation.of(hotel,
                 member,
-                roomType,
+                RoomType.of(1L),
                 LocalDateTime.of(2024, 5, 8, 12, 0, 0),
                 LocalDateTime.of(2024, 5, 9, 12, 0, 0),
                 ReservationStatus.PENDING);
