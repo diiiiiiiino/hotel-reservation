@@ -33,7 +33,6 @@ public class HotelRemoveServiceTest {
 
     @BeforeEach
     void init(){
-        hotelRepository = mock(HotelRepository.class);
         hotelRemoveService = new HotelRemoveService(hotelRepository);
     }
 
