@@ -3,7 +3,6 @@ package com.dino.hotel.api.reservation.command.repository;
 import com.dino.hotel.api.helper.BaseRepositoryTest;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
 import com.dino.hotel.api.helper.builder.MemberCreateHelperBuilder;
-import com.dino.hotel.api.helper.builder.RoomTypeBuilder;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;

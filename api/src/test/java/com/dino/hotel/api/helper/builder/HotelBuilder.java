@@ -5,7 +5,6 @@ import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.Room;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 

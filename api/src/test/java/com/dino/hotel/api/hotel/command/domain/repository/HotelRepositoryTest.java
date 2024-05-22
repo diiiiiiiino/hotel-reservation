@@ -3,7 +3,6 @@ package com.dino.hotel.api.hotel.command.domain.repository;
 import com.dino.hotel.api.helper.BaseRepositoryTest;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
 import com.dino.hotel.api.helper.builder.RoomBuilder;
-import com.dino.hotel.api.helper.builder.RoomTypeBuilder;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.Room;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -68,7 +66,7 @@ public class HotelRepositoryTest extends BaseRepositoryTest {
 
         hotelRepository.save(hotel);
 
-        hotel.removeRoom(room);
+        hotel.removeRoom(room.getId());
 
         flushAndClear();
 

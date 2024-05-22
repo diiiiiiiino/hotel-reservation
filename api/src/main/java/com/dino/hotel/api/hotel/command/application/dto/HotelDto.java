@@ -2,7 +2,10 @@ package com.dino.hotel.api.hotel.command.application.dto;
 
 import com.dino.hotel.api.hotel.command.domain.Address;
 import com.dino.hotel.api.util.VerifyUtil;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -15,6 +15,9 @@ public enum ErrorCode {
     /**호텔 미존재*/
     HOTEL_NOT_FOUND(HttpStatus.NOT_FOUND, "HotelNotFound"),
 
+    /**Room 미존재*/
+    ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "RoomNotFound"),
+
     /**비밀번호 틀림*/
     PASSWORD_NOT_MATCHED(HttpStatus.BAD_REQUEST, "PasswordNotMatched"),
 

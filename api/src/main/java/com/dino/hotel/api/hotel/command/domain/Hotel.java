@@ -1,5 +1,6 @@
 package com.dino.hotel.api.hotel.command.domain;
 
+import com.dino.hotel.api.room.command.domain.exception.RoomNotFoundException;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Entity
@@ -54,16 +56,6 @@ public class Hotel {
         return new Hotel(id, name, address, functions);
     }
 
-    public void addRoom(Room room){
-        VerifyUtil.verifyNull(room, "hotelRoom");
-        this.rooms.add(room);
-    }
-
-    public void removeRoom(Room room){
-        VerifyUtil.verifyNull(room, "hotelRoom");
-        this.rooms.remove(room);
-    }
-
     private void setRooms(List<Function<Hotel, Room>> functions){
         VerifyUtil.verifyCollection(functions, "hotelFunctions");
 
@@ -75,11 +67,39 @@ public class Hotel {
         this.rooms = rooms;
     }
 
+    public void addRoom(Room room){
+        VerifyUtil.verifyNull(room, "hotelRoom");
+        this.rooms.add(room);
+    }
+
+    public void removeRoom(Long roomId){
+        VerifyUtil.verifyNegative(roomId, "roomId");
+        if(!hasRoom(roomId))
+            throw new RoomNotFoundException("Room not found");
+
+        Room room = this.rooms.stream()
+                .filter(r -> r.equalId(roomId))
+                .findFirst().get();
+
+        this.rooms.remove(room);
+    }
+
     public void update(Address address, String name) {
         VerifyUtil.verifyNull(address, "address");
         VerifyUtil.verifyText(name, "name");
 
         this.address = address;
         this.name = name;
+    }
+
+    public boolean hasRoom(Long roomId) {
+        VerifyUtil.verifyNegative(roomId, "roomId");
+
+        if(rooms.isEmpty()){
+            return false;
+        }
+
+        return rooms.stream()
+                .anyMatch(room -> room.equalId(roomId));
     }
 }

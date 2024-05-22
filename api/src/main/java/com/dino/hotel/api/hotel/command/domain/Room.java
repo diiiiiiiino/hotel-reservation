@@ -12,7 +12,6 @@ import java.util.Objects;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +28,39 @@ public class Room {
     private String name;
     private boolean isAvailable;
 
+    protected Room(Long id,
+                 Hotel hotel,
+                 RoomType roomType,
+                 Integer floor,
+                 Integer number,
+                 String name,
+                 boolean isAvailable) {
+        this(hotel, roomType, floor, number, name, isAvailable);
+        setId(id);
+    }
+
     private Room(Hotel hotel,
                  RoomType roomType,
                  Integer floor,
                  Integer number,
                  String name,
                  boolean isAvailable) {
-        this.hotel = hotel;
-        this.roomType = roomType;
-        this.floor = floor;
-        this.number = number;
-        this.name = name;
-        this.isAvailable = isAvailable;
+        setHotel(hotel);
+        setRoomType(roomType);
+        setFloor(floor);
+        setNumber(number);
+        setName(name);
+        setAvailable(isAvailable);
+    }
+
+    public static Room of(Long id,
+                          Hotel hotel,
+                          RoomType roomType,
+                          Integer floor,
+                          Integer number,
+                          String name,
+                          boolean isAvailable){
+        return new Room(id, hotel, roomType, floor, number, name, isAvailable);
     }
 
     public static Room of(Hotel hotel,
@@ -49,13 +69,13 @@ public class Room {
                           Integer number,
                           String name,
                           boolean isAvailable){
-        VerifyUtil.verifyNull(hotel, "hotel");
-        VerifyUtil.verifyNull(roomType, "roomType");
-        VerifyUtil.verifyNegative(floor, "floor");
-        VerifyUtil.verifyNegative(number, "number");
-        VerifyUtil.verifyText(name, "name");
-
         return new Room(hotel, roomType, floor, number, name, isAvailable);
+    }
+
+    public boolean equalId(Long roomId){
+        VerifyUtil.verifyNegative(roomId, "roomId");
+
+        return this.id.equals(roomId);
     }
 
     @Override
@@ -69,5 +89,38 @@ public class Room {
     @Override
     public int hashCode() {
         return Objects.hash(id, floor, number, name, isAvailable);
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
+
+    private void setHotel(Hotel hotel) {
+        VerifyUtil.verifyNull(hotel, "hotel");
+        this.hotel = hotel;
+    }
+
+    private void setRoomType(RoomType roomType) {
+        VerifyUtil.verifyNull(roomType, "roomType");
+        this.roomType = roomType;
+    }
+
+    private void setFloor(Integer floor) {
+        VerifyUtil.verifyNegative(floor, "floor");
+        this.floor = floor;
+    }
+
+    private void setNumber(Integer number) {
+        VerifyUtil.verifyNegative(number, "number");
+        this.number = number;
+    }
+
+    private void setName(String name) {
+        VerifyUtil.verifyText(name, "name");
+        this.name = name;
+    }
+
+    private void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

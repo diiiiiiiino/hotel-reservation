@@ -1,7 +1,6 @@
 package com.dino.hotel.api.hotel.command.application.service;
 
 import com.dino.hotel.api.common.exception.CustomNullPointerException;
-import com.dino.hotel.api.common.exception.NotFoundException;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
 import com.dino.hotel.api.hotel.command.application.dto.HotelUpdateDto;
 import com.dino.hotel.api.hotel.command.domain.Address;

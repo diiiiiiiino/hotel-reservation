@@ -3,7 +3,6 @@ package com.dino.hotel.api.hotel.command.application.mapper;
 import com.dino.hotel.api.hotel.command.application.dto.HotelDto;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.Room;
-import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.util.VerifyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -3,7 +3,6 @@ package com.dino.hotel.api.hotel.presentation.controller;
 import com.dino.hotel.api.common.http.response.Response;
 import com.dino.hotel.api.hotel.command.application.dto.HotelDto;
 import com.dino.hotel.api.hotel.command.application.dto.HotelUpdateDto;
-import com.dino.hotel.api.hotel.command.application.dto.RoomDto;
 import com.dino.hotel.api.hotel.command.application.service.HotelCreateService;
 import com.dino.hotel.api.hotel.command.application.service.HotelRemoveService;
 import com.dino.hotel.api.hotel.command.application.service.HotelUpdateService;
