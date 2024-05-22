@@ -2,7 +2,6 @@ package com.dino.hotel.api.hotel.command.application.mapper;
 
 import com.dino.hotel.api.common.exception.CustomNullPointerException;
 import com.dino.hotel.api.helper.builder.AddressBuilder;
-import com.dino.hotel.api.helper.builder.RoomBuilder;
 import com.dino.hotel.api.hotel.command.application.dto.HotelDto;
 import com.dino.hotel.api.hotel.command.application.dto.RoomDto;
 import com.dino.hotel.api.hotel.command.domain.Address;

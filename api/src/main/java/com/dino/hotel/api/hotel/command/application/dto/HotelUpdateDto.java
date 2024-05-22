@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class HotelUpdateDto {
     @NotNull
     private Address address;
+
     @NotBlank
     private String name;
 

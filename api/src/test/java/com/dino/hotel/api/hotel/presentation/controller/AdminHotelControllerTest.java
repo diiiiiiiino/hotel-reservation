@@ -4,6 +4,7 @@ import com.dino.hotel.api.helper.BaseControllerTest;
 import com.dino.hotel.api.helper.builder.AddressBuilder;
 import com.dino.hotel.api.helper.dto.TestHotelDto;
 import com.dino.hotel.api.helper.dto.TestHotelUpdateDto;
+import com.dino.hotel.api.helper.dto.TestRoomDto;
 import com.dino.hotel.api.hotel.command.application.dto.HotelUpdateDto;
 import com.dino.hotel.api.hotel.command.application.dto.RoomDto;
 import com.dino.hotel.api.hotel.command.application.service.HotelCreateService;
@@ -11,10 +12,12 @@ import com.dino.hotel.api.hotel.command.application.service.HotelRemoveService;
 import com.dino.hotel.api.hotel.command.application.service.HotelUpdateService;
 import com.dino.hotel.api.hotel.command.domain.Address;
 import com.dino.hotel.api.hotel.command.domain.exception.HotelNotFoundException;
-import com.dino.hotel.api.hotel.controller.AdminHotelController;
+import com.dino.hotel.api.room.command.application.service.RoomAddService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -44,11 +48,14 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     @MockBean
     private HotelRemoveService hotelRemoveService;
 
+    @MockBean
+    private RoomAddService roomAddService;
+
     @WithMockUser
     @Test
     @DisplayName("Hotel 생성 시 요청 바디 유효성 에러")
     void whenHotelCreateThenInvalidRequestCauseHttpBodyNull() throws Exception {
-        mvcPerform(post("/admin/hotel"), null)
+        mvcPerform(post("/admin/hotels"), null)
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
@@ -90,7 +97,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     @Test
     @DisplayName("Hotel 수정 시 요청 바디가 null인 경우")
     void whenHotelUpdateThenInvalidRequestCauseHttpBodyNull() throws Exception {
-        mvcPerform(patch("/admin/hotel"), null)
+        mvcPerform(patch("/admin/hotels"), null)
                 .andExpect(status().isInternalServerError())
                 .andDo(print());
     }
@@ -175,7 +182,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
 
     @WithMockUser
     @Test
-    @DisplayName("Hotel 삭제 시 id가 null인 경우")
+    @DisplayName("Hotel 삭제 시 id가 음수인 경우")
     void whenHotelRemoveThenInvalidRequestCauseIdNegative() throws Exception {
         Long id = -1L;
 
@@ -192,7 +199,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     }
 
     private void mvcPerformRemoveHotel(Long id, ResultMatcher resultMatcher) throws Exception {
-        mvcPerform(delete("/admin/hotel/" + (id == null ? " " : id)), null)
+        mvcPerform(delete("/admin/hotels/" + (id == null ? " " : id)), null)
                 .andExpect(resultMatcher)
                 .andDo(print());
     }
@@ -200,7 +207,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     private void mvcPerformPostHotel(List<RoomDto> rooms, Address address, String name, ResultMatcher resultMatcher) throws Exception {
         TestHotelDto hotelDto = TestHotelDto.of(address, name, rooms);
 
-        mvcPerform(post("/admin/hotel"), hotelDto)
+        mvcPerform(post("/admin/hotels"), hotelDto)
                 .andExpect(resultMatcher)
                 .andDo(print());
     }
@@ -208,7 +215,7 @@ public class AdminHotelControllerTest extends BaseControllerTest {
     private void mvcPerformPatchHotel(Long id, Address address, String name, ResultMatcher resultMatcher) throws Exception {
         TestHotelUpdateDto hotelDto = TestHotelUpdateDto.of(address, name);
 
-        mvcPerform(patch("/admin/hotel/" + (id == null ? " " : id)), hotelDto)
+        mvcPerform(patch("/admin/hotels/" + (id == null ? " " : id)), hotelDto)
                 .andExpect(resultMatcher)
                 .andDo(print());
     }
