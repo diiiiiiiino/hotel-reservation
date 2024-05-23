@@ -3,7 +3,6 @@ package com.dino.hotel.api.hotel.command.domain;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -73,7 +72,7 @@ public class Room {
     }
 
     public boolean equalId(Long roomId){
-        VerifyUtil.verifyNegative(roomId, "roomId");
+        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
 
         return this.id.equals(roomId);
     }

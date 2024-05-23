@@ -15,7 +15,7 @@ public class HotelRemoveService {
 
     @Transactional
     public void remove(Long hotelId){
-        VerifyUtil.verifyNegative(hotelId, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(hotelId, "hotelId");
 
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Hotel not found"));

@@ -33,7 +33,7 @@ public class RoomDto {
             Integer floor,
             Integer number,
             String name){
-        VerifyUtil.verifyNegative(roomTypeId, "roomTypeId");
+        VerifyUtil.verifyPositiveOrZero(roomTypeId, "roomTypeId");
         VerifyUtil.verifyNegative(floor, "floor");
         VerifyUtil.verifyNegative(number, "number");
         VerifyUtil.verifyText(name, "name");

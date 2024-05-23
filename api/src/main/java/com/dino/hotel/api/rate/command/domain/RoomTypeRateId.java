@@ -20,7 +20,7 @@ public class RoomTypeRateId implements Serializable {
     private LocalDateTime dateTime;
 
     public static RoomTypeRateId of(Long hotelId, LocalDateTime dateTime){
-        VerifyUtil.verifyNegative(hotelId, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(hotelId, "hotelId");
         VerifyUtil.verifyNull(dateTime, "dateTime");
 
         return new RoomTypeRateId(hotelId, dateTime);

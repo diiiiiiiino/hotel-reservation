@@ -13,8 +13,8 @@ public class RoomRemoveService {
     private final HotelRepository hotelRepository;
 
     public void remove(Long hotelId, Long roomId) {
-        VerifyUtil.verifyNegative(hotelId, "hotelId");
-        VerifyUtil.verifyNegative(roomId, "roomId");
+        VerifyUtil.verifyPositiveOrZero(hotelId, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
 
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Hotel not found"));

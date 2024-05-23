@@ -48,7 +48,7 @@ public class AdminHotelController {
     public Response updateHotel(
             @PathVariable("id") Long id,
             @Valid @RequestBody HotelUpdateDto hotelUpdateDto){
-        VerifyUtil.verifyNegative(id, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(id, "hotelId");
 
         hotelUpdateService.update(id, hotelUpdateDto);
 
@@ -63,7 +63,7 @@ public class AdminHotelController {
     })
     @DeleteMapping("/{id}")
     public Response removeHotel(@PathVariable("id") Long id){
-        VerifyUtil.verifyNegative(id, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(id, "hotelId");
 
         hotelRemoveService.remove(id);
 

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Entity
@@ -73,7 +72,7 @@ public class Hotel {
     }
 
     public void removeRoom(Long roomId){
-        VerifyUtil.verifyNegative(roomId, "roomId");
+        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
         if(!hasRoom(roomId))
             throw new RoomNotFoundException("Room not found");
 
@@ -93,7 +92,7 @@ public class Hotel {
     }
 
     public boolean hasRoom(Long roomId) {
-        VerifyUtil.verifyNegative(roomId, "roomId");
+        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
 
         if(rooms.isEmpty()){
             return false;

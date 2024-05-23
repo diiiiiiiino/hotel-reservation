@@ -55,7 +55,10 @@ public enum ErrorCode {
     AUTHORITY_NOT_FOUND(HttpStatus.NOT_FOUND, "AuthorityNotFound"),
 
     /**유효하지 않은 기간*/
-    UNAVAILABLE_PERIOD(HttpStatus.BAD_REQUEST, "UnavailablePeriod");
+    UNAVAILABLE_PERIOD(HttpStatus.BAD_REQUEST, "UnavailablePeriod"),
+
+    /**값이 0인 경우*/
+    ZERO(HttpStatus.BAD_REQUEST, "ZERO");
 
     /**HttpStatus*/
     private HttpStatus status;

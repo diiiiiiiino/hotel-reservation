@@ -72,17 +72,48 @@ public class VerifyUtil {
     }
 
     /**
-     * {@code long} 데이터가 음수인지 검증
+     * {@code long} 데이터가 0이거나 양수 검증
      * @param value 정수값
      * @param name 데이터 이름
      * @return long
      * @throws CustomIllegalArgumentException 음수일때
      */
-    public static long verifyNegative(Long value, String name){
+    public static long verifyPositiveOrZero(Long value, String name){
         verifyNull(value, name);
 
         if(value < 0){
-            throw new CustomIllegalArgumentException(name + " no negative", ErrorCode.NEGATIVE_NUMBER, Map.of("name", name));
+            throw new CustomIllegalArgumentException(name + " is negative", ErrorCode.NEGATIVE_NUMBER, Map.of("name", name));
+        }
+
+        return value;
+    }
+
+    /**
+     * {@code long} 데이터가 양수 검증
+     * @param value 정수값
+     * @param name 데이터 이름
+     * @return long
+     * @throws CustomIllegalArgumentException 음수일때
+     */
+    public static long verifyPositive(Long value, String name){
+        verifyZero(value, name);
+        verifyPositiveOrZero(value, name);
+
+        return value;
+    }
+
+    /**
+     * {@code Long} 데이터가 0인지 검증
+     * @param value 정수값
+     * @param name 데이터 이름
+     * @return int
+     * @throws CustomIllegalArgumentException 0일때
+     */
+    public static Long verifyZero(Long value, String name){
+        verifyNull(value, name);
+
+        if(value == 0){
+            throw new CustomIllegalArgumentException(name + " is zero", ErrorCode.ZERO, Map.of("name", name));
         }
 
         return value;

@@ -38,7 +38,7 @@ public class RoomType {
     }
 
     public static RoomType of(Long id){
-        VerifyUtil.verifyNegative(id, "id");
+        VerifyUtil.verifyPositiveOrZero(id, "id");
 
         return new RoomType(id);
     }

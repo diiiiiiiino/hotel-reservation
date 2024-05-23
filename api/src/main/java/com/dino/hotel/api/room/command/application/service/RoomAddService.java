@@ -19,7 +19,7 @@ public class RoomAddService {
 
     @Transactional
     public void add(Long hotelId, RoomDto roomDto) {
-        VerifyUtil.verifyNegative(hotelId, "hotelId");
+        VerifyUtil.verifyPositiveOrZero(hotelId, "hotelId");
         VerifyUtil.verifyNull(roomDto, "roomDto");
 
         Hotel hotel = hotelRepository.findById(hotelId)
