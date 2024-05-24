@@ -69,19 +69,4 @@ public class AdminHotelController {
 
         return Response.ok();
     }
-
-//    @Operation(summary = "room 추가", description = "room 추가")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "정상"),
-//            @ApiResponse(responseCode = "400", description = "RoomDto 유효성 에러"),
-//            @ApiResponse(responseCode = "500", description = "서버 내부 오류")
-//    })
-//    @PostMapping("/{hotel-id}/rooms")
-//    public Response addRoom(@PathVariable("hotel-id") Long hotelId, @Valid @RequestBody RoomDto roomDto){
-//        VerifyUtil.verifyNegative(hotelId, "hotelId");
-//
-//        roomAddService.add(hotelId, roomDto);
-//
-//        return Response.ok();
-//    }
 }
