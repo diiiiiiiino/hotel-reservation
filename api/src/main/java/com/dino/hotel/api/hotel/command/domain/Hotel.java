@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Entity
@@ -76,28 +75,18 @@ public class Hotel {
     public void removeRoom(Long roomId){
         VerifyUtil.verifyPositive(roomId, "roomId");
 
-        Optional<Room> optionalRoom = getRoom(roomId);
+        Room room = getRoom(roomId);
 
-        if(optionalRoom.isEmpty()){
-            throw new RoomNotFoundException("Room not found");
-        } else {
-            Room room = optionalRoom.get();
-            this.rooms.remove(room);
-        }
+        this.rooms.remove(room);
     }
 
     public void updateRoom(Long roomId, RoomUpdateDto roomUpdateDto){
         VerifyUtil.verifyPositive(roomId, "roomId");
         VerifyUtil.verifyNull(roomUpdateDto, "roomUpdateDto");
 
-        Optional<Room> optionalRoom = getRoom(roomId);
+        Room room = getRoom(roomId);
 
-        if(optionalRoom.isEmpty()){
-            throw new RoomNotFoundException("Room not found");
-        } else {
-            Room room = optionalRoom.get();
-            room.update(roomUpdateDto);
-        }
+        room.update(roomUpdateDto);
     }
 
     public void update(Address address, String name) {
@@ -119,12 +108,13 @@ public class Hotel {
                 .anyMatch(room -> room.equalId(roomId));
     }
 
-    public Optional<Room> getRoom(Long roomId){
+    public Room getRoom(Long roomId){
         if(!hasRoom(roomId))
             throw new RoomNotFoundException("Room not found");
 
         return rooms.stream()
                 .filter(r -> r.equalId(roomId))
-                .findFirst();
+                .findFirst()
+                .get();
     }
 }

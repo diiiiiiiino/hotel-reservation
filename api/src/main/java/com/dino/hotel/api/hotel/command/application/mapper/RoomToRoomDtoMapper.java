@@ -1,7 +1,7 @@
 package com.dino.hotel.api.hotel.command.application.mapper;
 
-import com.dino.hotel.api.hotel.command.application.dto.RoomDto;
 import com.dino.hotel.api.hotel.command.domain.Room;
+import com.dino.hotel.api.room.command.application.dto.RoomDto;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

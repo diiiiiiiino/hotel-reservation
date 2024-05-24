@@ -137,7 +137,7 @@ public class RoomUpdateServiceTest {
 
         roomUpdateService.update(hotelId, roomId, roomUpdateDto);
 
-        Room room = hotel.getRoom(1L).get();
+        Room room = hotel.getRoom(1L);
 
         assertThat(room).isNotNull();
         assertThat(room.getRoomTypeId()).isEqualTo(2);

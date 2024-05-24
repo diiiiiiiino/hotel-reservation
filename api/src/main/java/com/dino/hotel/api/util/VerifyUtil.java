@@ -72,13 +72,13 @@ public class VerifyUtil {
     }
 
     /**
-     * {@code long} 데이터가 0이거나 양수 검증
+     * {@code Long} 데이터가 0이거나 양수 검증
      * @param value 정수값
      * @param name 데이터 이름
-     * @return long
+     * @return Long
      * @throws CustomIllegalArgumentException 음수일때
      */
-    public static long verifyPositiveOrZero(Long value, String name){
+    public static Long verifyPositiveOrZero(Long value, String name){
         verifyNull(value, name);
 
         if(value < 0){
@@ -89,10 +89,27 @@ public class VerifyUtil {
     }
 
     /**
-     * {@code long} 데이터가 양수 검증
+     * {@code Integer} 데이터가 0이거나 양수 검증
      * @param value 정수값
      * @param name 데이터 이름
-     * @return long
+     * @return Integer
+     * @throws CustomIllegalArgumentException 음수일때
+     */
+    public static Integer verifyPositiveOrZero(Integer value, String name){
+        verifyNull(value, name);
+
+        if(value < 0){
+            throw new CustomIllegalArgumentException(name + " is negative", ErrorCode.NEGATIVE_NUMBER, Map.of("name", name));
+        }
+
+        return value;
+    }
+
+    /**
+     * {@code Long} 데이터가 양수 검증
+     * @param value 정수값
+     * @param name 데이터 이름
+     * @return Long
      * @throws CustomIllegalArgumentException 음수일때
      */
     public static long verifyPositive(Long value, String name){
@@ -103,13 +120,44 @@ public class VerifyUtil {
     }
 
     /**
+     * {@code Integer} 데이터가 양수 검증
+     * @param value 정수값
+     * @param name 데이터 이름
+     * @return Integer
+     * @throws CustomIllegalArgumentException 음수일때
+     */
+    public static Integer verifyPositive(Integer value, String name){
+        verifyZero(value, name);
+        verifyPositiveOrZero(value, name);
+
+        return value;
+    }
+
+    /**
      * {@code Long} 데이터가 0인지 검증
      * @param value 정수값
      * @param name 데이터 이름
-     * @return int
+     * @return Long
      * @throws CustomIllegalArgumentException 0일때
      */
     public static Long verifyZero(Long value, String name){
+        verifyNull(value, name);
+
+        if(value == 0){
+            throw new CustomIllegalArgumentException(name + " is zero", ErrorCode.ZERO, Map.of("name", name));
+        }
+
+        return value;
+    }
+
+    /**
+     * {@code Integer} 데이터가 0인지 검증
+     * @param value 정수값
+     * @param name 데이터 이름
+     * @return Integer
+     * @throws CustomIllegalArgumentException 0일때
+     */
+    public static Integer verifyZero(Integer value, String name){
         verifyNull(value, name);
 
         if(value == 0){

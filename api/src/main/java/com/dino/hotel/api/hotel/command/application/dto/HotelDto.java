@@ -1,6 +1,7 @@
 package com.dino.hotel.api.hotel.command.application.dto;
 
 import com.dino.hotel.api.hotel.command.domain.Address;
+import com.dino.hotel.api.room.command.application.dto.RoomDto;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

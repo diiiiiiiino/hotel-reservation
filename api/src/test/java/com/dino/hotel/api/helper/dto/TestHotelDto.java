@@ -1,7 +1,7 @@
 package com.dino.hotel.api.helper.dto;
 
-import com.dino.hotel.api.hotel.command.application.dto.RoomDto;
 import com.dino.hotel.api.hotel.command.domain.Address;
+import com.dino.hotel.api.room.command.application.dto.RoomDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

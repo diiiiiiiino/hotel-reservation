@@ -1,4 +1,4 @@
-package com.dino.hotel.api.hotel.command.application.dto;
+package com.dino.hotel.api.room.command.application.dto;
 
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.validation.constraints.NotBlank;
