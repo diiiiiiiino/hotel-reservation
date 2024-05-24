@@ -1,5 +1,6 @@
 package com.dino.hotel.api.hotel.command.domain;
 
+import com.dino.hotel.api.room.command.application.dto.RoomUpdateDto;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -121,5 +122,17 @@ public class Room {
 
     private void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public void update(RoomUpdateDto roomUpdateDto) {
+        this.roomType = RoomType.of(roomUpdateDto.getRoomTypeId());
+        this.floor = roomUpdateDto.getFloor();
+        this.number = roomUpdateDto.getNumber();
+        this.name = roomUpdateDto.getName();
+        this.isAvailable = roomUpdateDto.isAvailable();
+    }
+
+    public Long getRoomTypeId(){
+        return roomType.getId();
     }
 }

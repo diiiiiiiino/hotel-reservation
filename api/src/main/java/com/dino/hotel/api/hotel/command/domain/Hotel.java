@@ -1,5 +1,6 @@
 package com.dino.hotel.api.hotel.command.domain;
 
+import com.dino.hotel.api.room.command.application.dto.RoomUpdateDto;
 import com.dino.hotel.api.room.command.domain.exception.RoomNotFoundException;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Entity
@@ -72,15 +74,30 @@ public class Hotel {
     }
 
     public void removeRoom(Long roomId){
-        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
-        if(!hasRoom(roomId))
+        VerifyUtil.verifyPositive(roomId, "roomId");
+
+        Optional<Room> optionalRoom = getRoom(roomId);
+
+        if(optionalRoom.isEmpty()){
             throw new RoomNotFoundException("Room not found");
+        } else {
+            Room room = optionalRoom.get();
+            this.rooms.remove(room);
+        }
+    }
 
-        Room room = this.rooms.stream()
-                .filter(r -> r.equalId(roomId))
-                .findFirst().get();
+    public void updateRoom(Long roomId, RoomUpdateDto roomUpdateDto){
+        VerifyUtil.verifyPositive(roomId, "roomId");
+        VerifyUtil.verifyNull(roomUpdateDto, "roomUpdateDto");
 
-        this.rooms.remove(room);
+        Optional<Room> optionalRoom = getRoom(roomId);
+
+        if(optionalRoom.isEmpty()){
+            throw new RoomNotFoundException("Room not found");
+        } else {
+            Room room = optionalRoom.get();
+            room.update(roomUpdateDto);
+        }
     }
 
     public void update(Address address, String name) {
@@ -92,7 +109,7 @@ public class Hotel {
     }
 
     public boolean hasRoom(Long roomId) {
-        VerifyUtil.verifyPositiveOrZero(roomId, "roomId");
+        VerifyUtil.verifyPositive(roomId, "roomId");
 
         if(rooms.isEmpty()){
             return false;
@@ -100,5 +117,14 @@ public class Hotel {
 
         return rooms.stream()
                 .anyMatch(room -> room.equalId(roomId));
+    }
+
+    public Optional<Room> getRoom(Long roomId){
+        if(!hasRoom(roomId))
+            throw new RoomNotFoundException("Room not found");
+
+        return rooms.stream()
+                .filter(r -> r.equalId(roomId))
+                .findFirst();
     }
 }
