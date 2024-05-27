@@ -6,7 +6,6 @@ import com.dino.hotel.api.hotel.command.application.dto.HotelUpdateDto;
 import com.dino.hotel.api.hotel.command.application.service.HotelCreateService;
 import com.dino.hotel.api.hotel.command.application.service.HotelRemoveService;
 import com.dino.hotel.api.hotel.command.application.service.HotelUpdateService;
-import com.dino.hotel.api.room.command.application.service.RoomAddService;
 import com.dino.hotel.api.util.VerifyUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +21,6 @@ public class AdminHotelController {
     private final HotelCreateService hotelCreateService;
     private final HotelUpdateService hotelUpdateService;
     private final HotelRemoveService hotelRemoveService;
-    private final RoomAddService roomAddService;
 
     @Operation(summary = "Hotel 생성", description = "Hotel 생성")
     @ApiResponses({
