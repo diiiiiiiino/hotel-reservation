@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -33,5 +35,12 @@ public class ReservationDto {
         VerifyUtil.verifyPositive(numberOfRoomsToReserve, "numberOfRoomsToReserve");
 
         return new ReservationDto(hotelId, roomId, roomTypeId, startDate, endDate, numberOfRoomsToReserve);
+    }
+
+    public long startUntilEnd(ChronoUnit chronoUnit){
+        LocalDate startLocalDate = startDate.toLocalDate();
+        LocalDate endLocalDate = endDate.toLocalDate();
+
+        return startLocalDate.until(endLocalDate, chronoUnit) + 1;
     }
 }

@@ -60,8 +60,11 @@ public enum ErrorCode {
     /**값이 0인 경우*/
     ZERO(HttpStatus.BAD_REQUEST, "ZERO"),
 
-    /**예약 가능한 객실이 없는 경우*/
-    NO_ROOMS_AVAILABLE_RESERVATION(HttpStatus.CONFLICT, "NoRoomsAvailableReservation");
+    /**예약 가능한 객실의 수가 부족할 경우*/
+    NO_ROOMS_AVAILABLE_RESERVATION(HttpStatus.CONFLICT, "NoRoomsAvailableReservation"),
+
+    /**예약 가능한 객실이 조회되지 않는 경우*/
+    NOT_FOUND_ROOMS_AVAILABLE_RESERVATION(HttpStatus.NOT_FOUND, "NotFoundRoomsAvailableReservation");
 
     /**HttpStatus*/
     private HttpStatus status;

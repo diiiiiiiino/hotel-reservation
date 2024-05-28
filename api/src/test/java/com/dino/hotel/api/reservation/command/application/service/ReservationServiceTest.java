@@ -2,15 +2,17 @@ package com.dino.hotel.api.reservation.command.application.service;
 
 import com.dino.hotel.api.common.exception.CustomNullPointerException;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
+import com.dino.hotel.api.helper.builder.ReservationDtoBuilder;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.Room;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.hotel.command.domain.exception.HotelNotFoundException;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
-import com.dino.hotel.api.reservation.command.domain.exception.NoRoomsAvailableForReservation;
 import com.dino.hotel.api.reservation.command.application.dto.ReservationDto;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventory;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventoryId;
+import com.dino.hotel.api.reservation.command.domain.exception.NoRoomsAvailableForReservation;
+import com.dino.hotel.api.reservation.command.domain.exception.NotFoundRoomsAvailableForReservation;
 import com.dino.hotel.api.reservation.command.domain.repository.RoomTypeInventoryRepository;
 import com.dino.hotel.api.room.command.domain.exception.RoomNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -58,14 +61,7 @@ public class ReservationServiceTest {
     @Test
     @DisplayName("Hotel이 조회되지 않는 경우")
     void hotelNotFound() {
-        Long hotelId = 1L;
-        Long roomId = 1L;
-        Long roomTypeId = 1L;
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end = start.plusDays(2);
-        Integer numberOfRoomsToReserve = 1;
-
-        ReservationDto reservationDto = ReservationDto.of(hotelId, roomId, roomTypeId, start, end, numberOfRoomsToReserve);
+        ReservationDto reservationDto = ReservationDtoBuilder.builder().build();
 
         when(hotelRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -76,14 +72,7 @@ public class ReservationServiceTest {
     @Test
     @DisplayName("Room이 조회되지 않는 경우")
     void roomNotFound() {
-        Long hotelId = 1L;
-        Long roomId = 1L;
-        Long roomTypeId = 1L;
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end = start.plusDays(2);
-        Integer numberOfRoomsToReserve = 1;
-
-        ReservationDto reservationDto = ReservationDto.of(hotelId, roomId, roomTypeId, start, end, numberOfRoomsToReserve);
+        ReservationDto reservationDto = ReservationDtoBuilder.builder().build();
 
         List<Function<Hotel, Room>> functions = List.of(hotel -> Room.of(2L, hotel, RoomType.of(1L), 1, 1, "101", true));
         Hotel hotel = HotelBuilder.builder()
@@ -99,14 +88,47 @@ public class ReservationServiceTest {
     @Test
     @DisplayName("Room의 잔여 수량이 부족한 경우")
     void roomNotEnoughQuantity() {
-        Long hotelId = 1L;
-        Long roomId = 1L;
-        Long roomTypeId = 1L;
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end = start.plusDays(2);
-        Integer numberOfRoomsToReserve = 1;
+        ReservationDto reservationDto = ReservationDtoBuilder.builder()
+                .numberOfRoomsToReserve(2)
+                .build();
 
-        ReservationDto reservationDto = ReservationDto.of(hotelId, roomId, roomTypeId, start, end, numberOfRoomsToReserve);
+        List<Function<Hotel, Room>> functions = List.of(hotel -> Room.of(1L, hotel, RoomType.of(1L), 1, 1, "101", true));
+        Hotel hotel = HotelBuilder.builder()
+                .id(1L)
+                .rooms(functions).build();
+
+        List<RoomTypeInventory> inventories = List.of(
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 27, 15, 0, 0)),
+                        hotel,
+                        100,
+                        98
+                ),
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 28, 10, 0, 0)),
+                        hotel,
+                        100,
+                        98
+                ),
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 29, 11, 0, 0)),
+                        hotel,
+                        100,
+                        99
+                )
+        );
+
+        when(hotelRepository.findById(anyLong())).thenReturn(Optional.of(hotel));
+        when(roomTypeInventoryRepository.findAllByStartAndEnd(anyLong(), anyLong(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(inventories);
+
+        assertThatThrownBy(() -> reservationCreateService.create(reservationDto))
+                .isInstanceOf(NoRoomsAvailableForReservation.class);
+    }
+
+    @Test
+    @DisplayName("예약 시 객실의 데이터 수가 조회된 기간만큼 조회 되지 않을때")
+    void roomTypeInventoryNotFoundPeriodSearch() {
+        ReservationDto reservationDto = ReservationDtoBuilder.builder().build();
 
         List<Function<Hotel, Room>> functions = List.of(hotel -> Room.of(1L, hotel, RoomType.of(1L), 1, 1, "101", true));
         Hotel hotel = HotelBuilder.builder()
@@ -118,7 +140,7 @@ public class ReservationServiceTest {
                         RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 27, 10, 0, 0)),
                         hotel,
                         100,
-                        100
+                        99
                 )
         );
 
@@ -126,6 +148,47 @@ public class ReservationServiceTest {
         when(roomTypeInventoryRepository.findAllByStartAndEnd(anyLong(), anyLong(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(inventories);
 
         assertThatThrownBy(() -> reservationCreateService.create(reservationDto))
-                .isInstanceOf(NoRoomsAvailableForReservation.class);
+                .isInstanceOf(NotFoundRoomsAvailableForReservation.class);
+    }
+
+    @Test
+    @DisplayName("예약 성공")
+    void reservationSuccess() {
+        ReservationDto reservationDto = ReservationDtoBuilder.builder().build();
+
+        List<Function<Hotel, Room>> functions = List.of(hotel -> Room.of(1L, hotel, RoomType.of(1L), 1, 1, "101", true));
+        Hotel hotel = HotelBuilder.builder()
+                .id(1L)
+                .rooms(functions).build();
+
+        List<RoomTypeInventory> inventories = List.of(
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 27, 15, 0, 0)),
+                        hotel,
+                        100,
+                        98
+                ),
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 28, 10, 0, 0)),
+                        hotel,
+                        100,
+                        98
+                ),
+                RoomTypeInventory.of(
+                        RoomTypeInventoryId.of(1L, 1L, LocalDateTime.of(2024, 5, 29, 11, 0, 0)),
+                        hotel,
+                        100,
+                        99
+                )
+        );
+
+        when(hotelRepository.findById(anyLong())).thenReturn(Optional.of(hotel));
+        when(roomTypeInventoryRepository.findAllByStartAndEnd(anyLong(), anyLong(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(inventories);
+
+        reservationCreateService.create(reservationDto);
+
+        assertThat(inventories.get(0).getTotalReserved()).isEqualTo(99);
+        assertThat(inventories.get(1).getTotalReserved()).isEqualTo(99);
+        assertThat(inventories.get(2).getTotalReserved()).isEqualTo(100);
     }
 }

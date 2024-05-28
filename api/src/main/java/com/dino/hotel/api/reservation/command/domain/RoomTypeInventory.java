@@ -1,7 +1,9 @@
 package com.dino.hotel.api.reservation.command.domain;
 
 import com.dino.hotel.api.common.entity.BaseEntity;
+import com.dino.hotel.api.common.http.response.ErrorCode;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
+import com.dino.hotel.api.reservation.command.domain.exception.NoRoomsAvailableForReservation;
 import com.dino.hotel.api.util.VerifyUtil;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -42,5 +44,13 @@ public class RoomTypeInventory extends BaseEntity implements Persistable<RoomTyp
     @Override
     public boolean isNew() {
         return createTime == null;
+    }
+
+    public void reserve(Integer numberOfRoomsToReserve) {
+        if(totalReserved + numberOfRoomsToReserve > totalInventory){
+            throw new NoRoomsAvailableForReservation("There are no rooms available for reservation", ErrorCode.NO_ROOMS_AVAILABLE_RESERVATION);
+        }
+
+        totalReserved += numberOfRoomsToReserve;
     }
 }

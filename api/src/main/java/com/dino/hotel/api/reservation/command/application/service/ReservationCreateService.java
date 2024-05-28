@@ -7,6 +7,7 @@ import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
 import com.dino.hotel.api.reservation.command.application.dto.ReservationDto;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventory;
 import com.dino.hotel.api.reservation.command.domain.exception.NoRoomsAvailableForReservation;
+import com.dino.hotel.api.reservation.command.domain.exception.NotFoundRoomsAvailableForReservation;
 import com.dino.hotel.api.reservation.command.domain.repository.RoomTypeInventoryRepository;
 import com.dino.hotel.api.room.command.domain.exception.RoomNotFoundException;
 import com.dino.hotel.api.util.VerifyUtil;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -36,15 +38,14 @@ public class ReservationCreateService {
                                                                                                        reservationDto.getRoomTypeId(),
                                                                                                        reservationDto.getStartDate(),
                                                                                                        reservationDto.getEndDate());
+        long untilDay = reservationDto.startUntilEnd(ChronoUnit.DAYS);
+        if(untilDay != roomTypeInventories.size()){
+            throw new NotFoundRoomsAvailableForReservation("Not found rooms available for reservation", ErrorCode.NOT_FOUND_ROOMS_AVAILABLE_RESERVATION);
+        }
+
         Integer numberOfRoomsToReserve = reservationDto.getNumberOfRoomsToReserve();
-
         for(RoomTypeInventory inventory : roomTypeInventories){
-            Integer totalInventory = inventory.getTotalInventory();
-            Integer totalReserved = inventory.getTotalReserved();
-
-            if(totalReserved + numberOfRoomsToReserve > totalInventory){
-                throw new NoRoomsAvailableForReservation("There are no rooms available for reservation", ErrorCode.NO_ROOMS_AVAILABLE_RESERVATION);
-            }
+            inventory.reserve(numberOfRoomsToReserve);
         }
     }
 }
