@@ -29,9 +29,6 @@ public class ReservationRepositoryTest extends BaseRepositoryTest {
     private HotelRepository hotelRepository;
 
     @Autowired
-    private RoomTypeRepository roomTypeRepository;
-
-    @Autowired
     private ReservationRepository reservationRepository;
 
     @Test

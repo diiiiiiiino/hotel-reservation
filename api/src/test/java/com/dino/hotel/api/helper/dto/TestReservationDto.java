@@ -16,13 +16,15 @@ public class TestReservationDto {
     private Long roomTypeId;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Integer numberOfRoomsToReserve;
 
     public static TestReservationDto of(
             Long hotelId,
             Long roomId,
             Long roomTypeId,
             LocalDateTime startDate,
-            LocalDateTime endDate){
-        return new TestReservationDto(hotelId, roomId, roomTypeId, startDate, endDate);
+            LocalDateTime endDate,
+            Integer numberOfRoomsToReserve){
+        return new TestReservationDto(hotelId, roomId, roomTypeId, startDate, endDate, numberOfRoomsToReserve);
     }
 }
