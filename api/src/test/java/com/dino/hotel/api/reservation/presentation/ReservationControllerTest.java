@@ -117,19 +117,21 @@ public class ReservationControllerTest extends BaseControllerTest {
     }
 
     public static Stream<Arguments> reservationDtoMethodSource(){
+        LocalDateTime now = LocalDateTime.now();
+
         return Stream.of(
-                Arguments.of(TestReservationDtoBuilder.builder().hotelId(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().hotelId(-1L).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().roomId(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().roomId(-1L).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().roomTypeId(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().roomTypeId(-1L).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().start(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().start(LocalDateTime.now().minusNanos(1)).end(LocalDateTime.now()).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().end(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().start(LocalDateTime.now()).end(LocalDateTime.now().minusNanos(-1)).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().numberOfRoomsToReserve(null).build()),
-                Arguments.of(TestReservationDtoBuilder.builder().numberOfRoomsToReserve(-1).build())
+                Arguments.of(TestReservationDtoBuilder.builder().hotelId(null).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().hotelId(-1L).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().roomId(null).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().roomId(-1L).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().roomTypeId(null).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().roomTypeId(-1L).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().start(null).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().start(now).end(now.plusDays(1)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().start(now.plusDays(1)).end(null).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().start(now.plusDays(1)).end(now).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().numberOfRoomsToReserve(null).start(now.plusDays(1)).end(now.plusDays(2)).build()),
+                Arguments.of(TestReservationDtoBuilder.builder().numberOfRoomsToReserve(-1).start(now.plusDays(1)).end(now.plusDays(2)).build())
         );
     }
 }

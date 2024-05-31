@@ -1,6 +1,7 @@
 package com.dino.hotel.api.reservation.command.application.dto;
 
 import com.dino.hotel.api.util.VerifyUtil;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -29,11 +30,11 @@ public class ReservationDto {
     @NotNull
     private Long roomTypeId;
 
-    @FutureOrPresent
+    @Future
     @NotNull
     private LocalDateTime startDate;
 
-    @FutureOrPresent
+    @Future
     @NotNull
     private LocalDateTime endDate;
 
