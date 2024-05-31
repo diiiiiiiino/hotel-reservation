@@ -6,6 +6,11 @@ import com.dino.hotel.api.common.http.response.ErrorCode;
 import java.util.Map;
 
 public class NoRoomsAvailableForReservation extends ApplicationException {
+
+    public NoRoomsAvailableForReservation(String message) {
+        this(message, ErrorCode.NO_ROOMS_AVAILABLE_RESERVATION);
+    }
+
     public NoRoomsAvailableForReservation(String message, ErrorCode errorCode) {
         super(message, errorCode);
     }

@@ -4,6 +4,7 @@ import com.dino.hotel.api.common.http.response.Response;
 import com.dino.hotel.api.member.command.application.security.SecurityMember;
 import com.dino.hotel.api.reservation.command.application.dto.ReservationDto;
 import com.dino.hotel.api.reservation.command.application.service.ReservationCreateService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class ReservationController {
 
     @PostMapping
     public Response reserve(@AuthenticationPrincipal SecurityMember securityMember,
-                            @RequestBody ReservationDto reservationDto){
+                            @Valid @RequestBody ReservationDto reservationDto){
         reservationCreateService.create(securityMember.getMember(), reservationDto);
 
         return Response.ok();

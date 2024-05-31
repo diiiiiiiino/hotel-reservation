@@ -6,7 +6,6 @@ import com.dino.hotel.api.helper.builder.MemberCreateHelperBuilder;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
-import com.dino.hotel.api.hotel.command.domain.repository.RoomTypeRepository;
 import com.dino.hotel.api.member.command.domain.Member;
 import com.dino.hotel.api.member.command.domain.repository.MemberRepository;
 import com.dino.hotel.api.reservation.command.domain.Reservation;

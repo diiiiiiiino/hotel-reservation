@@ -1,6 +1,9 @@
 package com.dino.hotel.api.reservation.command.application.dto;
 
 import com.dino.hotel.api.util.VerifyUtil;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +17,28 @@ import java.time.temporal.ChronoUnit;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReservationDto {
+    @Positive
+    @NotNull
     private Long hotelId;
+
+    @Positive
+    @NotNull
     private Long roomId;
+
+    @Positive
+    @NotNull
     private Long roomTypeId;
+
+    @FutureOrPresent
+    @NotNull
     private LocalDateTime startDate;
+
+    @FutureOrPresent
+    @NotNull
     private LocalDateTime endDate;
+
+    @Positive
+    @NotNull
     private Integer numberOfRoomsToReserve;
 
     public static ReservationDto of(

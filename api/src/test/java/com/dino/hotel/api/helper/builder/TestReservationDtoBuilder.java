@@ -1,7 +1,6 @@
 package com.dino.hotel.api.helper.builder;
 
 import com.dino.hotel.api.helper.dto.TestReservationDto;
-import com.dino.hotel.api.reservation.command.application.dto.ReservationDto;
 
 import java.time.LocalDateTime;
 

@@ -1,6 +1,5 @@
 package com.dino.hotel.api.reservation.command.application.service;
 
-import com.dino.hotel.api.common.http.response.ErrorCode;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.RoomType;
 import com.dino.hotel.api.hotel.command.domain.exception.HotelNotFoundException;
@@ -10,7 +9,6 @@ import com.dino.hotel.api.reservation.command.application.dto.ReservationDto;
 import com.dino.hotel.api.reservation.command.domain.Reservation;
 import com.dino.hotel.api.reservation.command.domain.ReservationStatus;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventory;
-import com.dino.hotel.api.reservation.command.domain.exception.NoRoomsAvailableForReservation;
 import com.dino.hotel.api.reservation.command.domain.exception.NotFoundRoomsAvailableForReservation;
 import com.dino.hotel.api.reservation.command.domain.repository.ReservationRepository;
 import com.dino.hotel.api.reservation.command.domain.repository.RoomTypeInventoryRepository;
@@ -46,7 +44,7 @@ public class ReservationCreateService {
                                                                                                        reservationDto.getEndDate());
         long untilDay = reservationDto.startUntilEnd(ChronoUnit.DAYS);
         if(untilDay != roomTypeInventories.size()){
-            throw new NotFoundRoomsAvailableForReservation("Not found rooms available for reservation", ErrorCode.NOT_FOUND_ROOMS_AVAILABLE_RESERVATION);
+            throw new NotFoundRoomsAvailableForReservation("Not found rooms available for reservation");
         }
 
         Integer numberOfRoomsToReserve = reservationDto.getNumberOfRoomsToReserve();
