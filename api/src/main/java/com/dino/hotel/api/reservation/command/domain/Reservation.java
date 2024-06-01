@@ -26,10 +26,10 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RoomType roomType;
 
     private LocalDateTime startDate;

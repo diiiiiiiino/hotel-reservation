@@ -1,4 +1,4 @@
-package com.dino.hotel.api.reservation.command.repository;
+package com.dino.hotel.api.reservation.command.domain.repository;
 
 import com.dino.hotel.api.helper.BaseRepositoryTest;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
@@ -10,7 +10,6 @@ import com.dino.hotel.api.member.command.domain.Member;
 import com.dino.hotel.api.member.command.domain.repository.MemberRepository;
 import com.dino.hotel.api.reservation.command.domain.Reservation;
 import com.dino.hotel.api.reservation.command.domain.ReservationStatus;
-import com.dino.hotel.api.reservation.command.domain.repository.ReservationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

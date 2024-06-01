@@ -1,13 +1,11 @@
-package com.dino.hotel.api.reservation.command.repository;
+package com.dino.hotel.api.reservation.command.domain.repository;
 
 import com.dino.hotel.api.helper.BaseRepositoryTest;
 import com.dino.hotel.api.helper.builder.HotelBuilder;
 import com.dino.hotel.api.hotel.command.domain.Hotel;
 import com.dino.hotel.api.hotel.command.domain.repository.HotelRepository;
-import com.dino.hotel.api.hotel.command.domain.repository.RoomTypeRepository;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventory;
 import com.dino.hotel.api.reservation.command.domain.RoomTypeInventoryId;
-import com.dino.hotel.api.reservation.command.domain.repository.RoomTypeInventoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ public class RoomTypeInventoryRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
     private RoomTypeInventoryRepository roomTypeInventoryRepository;
-
-    @Autowired
-    private RoomTypeRepository roomTypeRepository;
 
     @Autowired
     private HotelRepository hotelRepository;

@@ -27,17 +27,44 @@ public class RoomTypeInventory extends BaseEntity implements Persistable<RoomTyp
     private Integer totalInventory;
     private Integer totalReserved;
 
+    @Version
+    private Long version;
+
+    private RoomTypeInventory(RoomTypeInventoryId id,
+                              Hotel hotel,
+                              Integer totalInventory,
+                              Integer totalReserved) {
+        setId(id);
+        setHotel(hotel);
+        setTotalInventory(totalInventory);
+        setTotalReserved(totalReserved);
+    }
 
     public static RoomTypeInventory of(RoomTypeInventoryId id,
                                        Hotel hotel,
                                        Integer totalInventory,
                                        Integer totalReserved){
-        VerifyUtil.verifyNull(id, "id");
-        VerifyUtil.verifyNull(hotel, "hotel");
-        VerifyUtil.verifyNegative(totalInventory, "totalInventory");
-        VerifyUtil.verifyNegative(totalReserved, "totalReserved");
-
         return new RoomTypeInventory(id, hotel, totalInventory, totalReserved);
+    }
+
+    private void setId(RoomTypeInventoryId id) {
+        VerifyUtil.verifyNull(id, "id");
+        this.id = id;
+    }
+
+    private void setHotel(Hotel hotel) {
+        VerifyUtil.verifyNull(hotel, "hotel");
+        this.hotel = hotel;
+    }
+
+    private void setTotalInventory(Integer totalInventory) {
+        VerifyUtil.verifyNegative(totalInventory, "totalInventory");
+        this.totalInventory = totalInventory;
+    }
+
+    private void setTotalReserved(Integer totalReserved) {
+        VerifyUtil.verifyNegative(totalReserved, "totalReserved");
+        this.totalReserved = totalReserved;
     }
 
     @Override
